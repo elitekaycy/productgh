@@ -1,6 +1,6 @@
 <script lang="js">
 import search1 from '../assets/image/search1.png'
-import human from '../assets/image/human.png'
+import humann from '../assets/image/humann.png'
 import human2 from '../assets/image/human2.png'
 import router from '../router/index'
 import RecentSearch from '@/components/RecentSearch.vue'
@@ -13,7 +13,7 @@ export default {
     return {
       product: '',
       searchimg: search1,
-      human: human,
+      humann: humann,
       human2: human2
     }
   },
@@ -35,8 +35,8 @@ export default {
 <template>
   <main>
       <div class="background">
-        <img alt="human" :src="human" class="human"/>
-        <img alt="human2" :src="human2" class="human2"/>
+        <img alt="humann" :src="humann" class="human"/>
+        <!-- <img alt="human2" :src="human2" class="human2"/> -->
       </div>
     <div class="main">
     <form class="search_bar_box" @submit.prevent="handleSearch(product)">
@@ -52,15 +52,17 @@ export default {
 
 
 <style scoped>
-.human {
-  margin-top: 3.05%;
-}
+
 
 .background {
   position: absolute;
   width: 100vw;
   height: 100%;
   max-height: 70vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
   border-radius: 30px;
   padding: 20px;
   border: 10px solid white;
