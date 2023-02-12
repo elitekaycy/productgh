@@ -21,11 +21,45 @@ export default {
     handleSearch(item) {
       if (typeof(item) === "string" && item.length > 0) {
         console.log(item, typeof(item))
+        this.setRecent(item)
         router.push(`productsearch/${String(item)}`)
       }
       else {
         alert("empty item")
       }
+    },
+    setRecent(item) {
+        const recentData = localStorage.getItem('productgh_recent')
+
+        if(recentData === null || typeof(recentData) === 'undefined') {
+          const data = [item]
+          localStorage.setItem('productgh_recent', JSON.stringify(data))
+          return
+        }
+
+        const getCurrentData = Array.from(JSON.parse(recentData))
+        console.log("get current data ", getCurrentData, getCurrentData.length)
+        if (getCurrentData.length < 3) {
+             const isItemExist = getCurrentData.filter(data => String(data) === String(item))
+             console.log("is item exists ", isItemExist)
+             if (isItemExist.length === 0) {
+                 let new_items = [...getCurrentData, item]
+                 localStorage.setItem('productgh_recent', JSON.stringify(new_items))
+                 return
+             }
+        }
+        else{
+            let editData = [...getCurrentData]
+            editData.pop(0)
+            editData.push(item)
+            localStorage.setItem('productgh_recent', JSON.stringify(editData))
+            return
+
+        }
+
+
+
+
     }
   }
 }
