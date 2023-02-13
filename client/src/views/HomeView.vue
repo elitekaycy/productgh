@@ -54,11 +54,7 @@ export default {
             editData.push(item)
             localStorage.setItem('productgh_recent', JSON.stringify(editData))
             return
-
         }
-
-
-
 
     }
   }
@@ -79,7 +75,9 @@ export default {
           <img :src="searchimg" alt="search logo" class="logo"/>
         </span>
       </form>
-      <RecentSearch />
+      <RecentSearch 
+      :search="handleSearch"
+      />
     </div>
   </main>
 </template>

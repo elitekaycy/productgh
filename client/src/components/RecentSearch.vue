@@ -18,12 +18,17 @@ export default {
             this.recents = Array.from(JSON.parse(localStorage.getItem('productgh_recent')))
 
         },
-        deleteRecent() {
+        deleteRecent(item) {
             // method to delete particular recent
+            const getData =  Array.from(JSON.parse(localStorage.getItem('productgh_recent')))
+            this.recents = getData.filter(data => String(data) !== String(item))
+            localStorage.setItem('productgh_recent', JSON.stringify(this.recents))
             return
         },
         clearRecents() {
             //method to clear all recent
+            localStorage.setItem('productgh_recent', JSON.stringify([]))
+            this.recents = []
             return
         }
     },
@@ -39,14 +44,14 @@ export default {
     <div class="item-spacing">
         <div class="recent-heading">Recent search</div>
         <div>
-            <font-awesome-icon class="item-addon" icon="fa-solid fa-delete-left" />
+            <font-awesome-icon class="item-addon" @click="clearRecents()" icon="fa-solid fa-delete-left" />
         </div>
     </div>
 
     <div v-for="(item) in recents"> 
         <div class="item-spacing">
             <div class="item-title">{{ item }}</div>
-            <font-awesome-icon class="item-addon" icon="fa-solid fa-xmark" />
+            <font-awesome-icon class="item-addon" @click="deleteRecent(item)" icon="fa-solid fa-xmark" />
         </div>
     </div>
   </div>
