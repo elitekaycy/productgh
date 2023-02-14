@@ -65,7 +65,12 @@ export default {
                 return
             })
         },
-       clear(){ return this.product = '' }
+       clear(){ return this.product = '' },
+       returnHome(){
+        const router = useRoute()
+        router.  
+        return
+       }
     }
     
 }
@@ -73,7 +78,9 @@ export default {
 </script>
 
 <template>
-    <main >
+    <main>
+        <div class="search_bar_box_container">
+            <!-- <font-awesome-icon class="item-active" icon="fa-sharp fa-regular fa-arrow-left" @click="returnHome" size="2x" inverse/> -->
         <form class="search_bar_box" @submit.prevent="handleSearch(product)">
             <div class="header">
                 <font-awesome-icon icon="fa-house-laptop" />
@@ -95,7 +102,9 @@ export default {
                 </span>
             </span>
         </form>
+        </div>
 
+        <div class="main_box">
         <div class="info">
            showing search results for "<span>{{ product }}</span>"
         </div>
@@ -117,12 +126,19 @@ export default {
                 /> 
             </div>
         </div>
+        </div>
         
     </main>
 
 </template>
 
 <style scoped>
+
+.item-active {
+    transform: scale(1.09, 1.09);
+    transition: 100ms ease-in-out 100ms;
+    cursor: pointer;
+}
 
 .options {
     display: flex;
@@ -197,21 +213,35 @@ export default {
 } */
 
 main {
-    padding: 30px;
     overflow: hidden;
     background-color: #F9F9F9;
     min-height: 100vh;
 }
 .search_bar_box {
+  max-width: 800px;
   width: 100%;
-  background-color: white;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: 5px;
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px; */
+  border-radius: 50px;
   display: flex;
   align-items: center;
-  padding: 10px
+  background-color: white;
+  padding: 15px;
+  transform: scale(0.8, 0.8);
 }
 
+.search_bar_box_container {
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFC93C;
+
+}
+
+.search_bar_box:hover, .search_bar_box:focus {
+  border: 3px solid #362FD9;
+}
 .search_bar {
   padding: 10px;
   width: 100%;
@@ -231,6 +261,10 @@ main {
 
 .logo:hover {
   transform: scale(1.09, 1.09);
+}
+
+.main_box {
+    padding: 20px;
 }
 
 </style>
