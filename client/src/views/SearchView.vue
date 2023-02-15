@@ -1,6 +1,7 @@
 <script lang="js">
 import { useRoute } from 'vue-router'
 import search1 from '../assets/image/search1.png'
+import loader from '../assets/image/loader.gif'
 import router from '../router/index'
 import ProfileCardSkeleton from '@/components/ProfileCardSkeleton.vue'
 import ProfileCard from '../components/ProfileCard.vue'
@@ -17,6 +18,7 @@ export default {
             error: false,
             input: true,
             searchimg: search1,
+            loader: loader,
             productList: []
         }
     },
@@ -105,10 +107,21 @@ export default {
         </div>
 
         <div class="main_box">
-        <div class="info">
+        <div v-if="loading" class="info">
            showing search results for "<span>{{ product }}</span>"
         </div>
+
+        <div v-if="loading" class="loading">
+            <img :src="loader" alt = "loadingAnimation"/>
+        </div>
         
+        <div class="filter-search-box">
+            <div class="filter_input_box">
+               <input class="filter_input" type="text" name="filter_search" placeholder="filter search results"/>
+               <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+            </div>
+        </div>
+
         <div v-if="loading" class="products_list_main">
             <div class="profileCard" v-for="(item, index) in [1,2,3,4,5,6,7,8]" :key="index">
                 <ProfileCardSkeleton />
@@ -134,6 +147,42 @@ export default {
 
 <style scoped>
 
+.filter_input {
+    border: 0;
+    width: 100%;
+}
+
+.filter_input:hover, .filter_input:focus {
+    outline: none;
+}
+.filter_input_box {
+    background-color: white;
+    padding: 2px;
+    width: 100%;
+    max-width: 200px;
+    height: 100%;
+    max-height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid gray;
+}
+.filter_input_box:hover {
+    border: 1px solid  black;
+}
+.filter-search-box {
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 60px;
+}
+.loading {
+   text-align: center;
+
+}
 .item-active {
     transform: scale(1.09, 1.09);
     transition: 100ms ease-in-out 100ms;
@@ -155,7 +204,7 @@ export default {
     margin-right: 4px;
 }
 .info {
-    padding: 20px;
+    padding: 10px;
     font-weight: 400;
     font-size: x-large;
 }
@@ -264,7 +313,7 @@ main {
 }
 
 .main_box {
-    padding: 20px;
+    padding: 15px;
 }
 
 </style>
