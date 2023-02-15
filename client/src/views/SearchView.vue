@@ -19,7 +19,9 @@ export default {
             input: true,
             searchimg: search1,
             loader: loader,
-            productList: []
+            productList: [],
+            productListFilter: [],
+            productSearch: ""
         }
     },
     mounted() {
@@ -53,8 +55,8 @@ export default {
             })
             .then(data => {
                 
-                console.log("data is ", data)
                 this.productList = data
+                this.productListFilter = data
                 this.error = false
                 this.loading = false
                 console.log(this.productList)
@@ -64,6 +66,7 @@ export default {
                 this.error = true
                 this.loading = false
                 this.productList = []
+                this.productListFilter = []
                 return
             })
         },
@@ -72,7 +75,19 @@ export default {
         const router = useRoute()
         router.  
         return
-       }
+       },
+       getFilteredProducts() {
+            if (String(this.productSearch).length  <  1) {
+                this.productListFilter = this.productList
+                return 
+            }
+            this.productListFilter = this.productList.filter(product => String(product?.title + product?.tag + product?.price).toLowerCase().includes(String(this.productSearch).toLowerCase()))
+            return
+            // this.productListFilter = productArray
+            // return
+        
+         }
+
     }
     
 }
@@ -107,7 +122,7 @@ export default {
         </div>
 
         <div class="main_box">
-        <div v-if="loading" class="info">
+        <div v-if="!loading" class="info">
            showing search results for "<span>{{ product }}</span>"
         </div>
 
@@ -117,7 +132,7 @@ export default {
         
         <div class="filter-search-box">
             <div class="filter_input_box">
-               <input class="filter_input" type="text" name="filter_search" placeholder="filter search results"/>
+               <input class="filter_input" v-model="productSearch" v-on:input="getFilteredProducts" type="text" name="filter_search" placeholder="filter search results"/>
                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
             </div>
         </div>
@@ -128,7 +143,7 @@ export default {
             </div>
         </div>
         <div v-if="!loading && productList.length > 0" class="products_list_main">
-            <div v-for="(item, index) in productList" :key="index" class="product_list">
+            <div v-for="(item, index) in productListFilter" :key="index" class="product_list">
                 <ProfileCard 
                 :img="String(item?.img)" 
                 :title="String(item?.title)"
