@@ -1,7 +1,5 @@
 <script lang="js">
-export default {
 
-}
 </script>
 
 <template>

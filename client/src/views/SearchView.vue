@@ -5,6 +5,7 @@ import loader from '../assets/image/loader.gif'
 import router from '../router/index'
 import ProfileCardSkeleton from '@/components/ProfileCardSkeleton.vue'
 import ProfileCard from '../components/ProfileCard.vue'
+import { useGetter } from '../composables/getterSetter'
 
 export default {
     components: {
@@ -21,7 +22,8 @@ export default {
             loader: loader,
             productList: [],
             productListFilter: [],
-            productSearch: ""
+            productSearch: "",
+            isbookmark: false
         }
     },
     mounted() {
@@ -29,6 +31,7 @@ export default {
         console.log("route params are ", route.params)
         this.product = route.params.product
         this.loadMetaData(String(route.params.product))
+        this.checkBookmark()
     },
     methods: {
          handleSearch(item) {
@@ -86,7 +89,16 @@ export default {
             // this.productListFilter = productArray
             // return
         
-         }
+         },
+        checkBookmark() {
+            const bookmarks =  useGetter('product_bookmark')
+            if(bookmarks.length > 0) {
+                this.isbookmark = true
+            }
+            else {
+                this.isbookmark = false
+            }
+        }
 
     }
     
@@ -115,7 +127,7 @@ export default {
                     <!-- <img :src="searchimg" alt="search logo" class="logo"/> -->
                 </span>
                 <span>
-                    <font-awesome-icon icon="fa-bookmark" />
+                    <font-awesome-icon :class="{ 'bookmark-icon': isbookmark }" icon="fa-bookmark" />
                 </span>
             </span>
         </form>
@@ -151,6 +163,7 @@ export default {
                 :link="String(item?.link)"
                 :location="String(item?.location)"
                 :tag="String(item?.tag)"
+                :id="String(index)"
                 /> 
             </div>
         </div>
@@ -161,7 +174,9 @@ export default {
 </template>
 
 <style scoped>
-
+.bookmark-icon {
+    color: #2192FF;
+}
 .filter_input {
     border: 0;
     width: 100%;

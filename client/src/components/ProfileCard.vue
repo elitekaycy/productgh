@@ -1,6 +1,8 @@
 <script lang="js">
 import { useRoute } from 'vue-router';
 import router from '../router';
+import { useSetter, deleteSetter } from '../composables/getterSetter'
+
 export default {
     name: 'ProfileCard',
     props: {
@@ -11,7 +13,31 @@ export default {
         location: String,
         tag: String
     },
+    data() {
+        return {
+            active: false
+        }
+    },
+    methods: {
+        checkBookmark(data) {
+            console.log("check bookmark is called ", data)
+            if (this.active === false) {
+                useSetter(data, 'product_bookmark', 7)
+            }
+            else {
+                deleteSetter(data, 'product_bookmark')
+            }
+
+
     
+
+
+            // this.active ? useSetter(data, 'product_bookmark', 8) : deleteSetter(data, 'product_bookmark')
+            // create use delete  and add to ternary
+            this.active = !this.active
+            return
+        }
+    }
   
 }
 
@@ -38,8 +64,8 @@ export default {
                     <!-- <div class="product_location">
                         {{ location }}
                     </div> -->
-                    <div class="product_fav">
-                        <font-awesome-icon icon="fa-bookmark" />
+                    <div class="product_fav" @click.prevent="checkBookmark({img, title, price, link, location, tag, id})">
+                        <font-awesome-icon :class="{ 'bookmark-icon': active }" icon="fa-bookmark" />
                     </div>
                 </div>
                 <div class="footer">
@@ -50,8 +76,18 @@ export default {
 </template>
 
 <style scoped>
+
+.bookmark-icon {
+    color: #2192FF;
+}
+
+.product_fav:hover{ 
+    transform: scale(1.09, 1.09);
+}
 .product_fav {
+    transition: 100ms ease-in-out 100ms;
     position: absolute;
+    cursor: pointer;
     z-index: 100;
     margin-left: 70%;
     display: flex;
