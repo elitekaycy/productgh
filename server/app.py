@@ -23,3 +23,7 @@ def getProducts():
             return res
     except:
         raise Exception("failed to load products, please try again")
+    
+
+if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0')
