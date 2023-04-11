@@ -136,6 +136,7 @@ export default {
         <div class="main_box">
         <div v-if="!loading" class="info">
            showing search results for "<span>{{ product }}</span>"
+           <span class="searchLength">{{ Number(productList.length ) }} results showing</span>
         </div>
 
         <div v-if="loading" class="loading">
@@ -174,8 +175,17 @@ export default {
 </template>
 
 <style scoped>
+.searchLength {
+    font-size: 10px;
+    font-weight: lighter;
+    background-color: #362FD9;
+    color: white;
+    padding: 8px;
+
+    border-radius: 15px;
+}
 .bookmark-icon {
-    color: #2192FF;
+    color: #362FD9;
 }
 .filter_input {
     border: 0;
