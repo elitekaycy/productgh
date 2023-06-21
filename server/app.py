@@ -7,6 +7,7 @@ import json
 app = Flask(__name__)
 cors = CORS(app)
 
+
 @app.route("/search", methods=['GET'])
 @cross_origin()
 def getProducts():
@@ -23,7 +24,7 @@ def getProducts():
             return res
     except:
         raise Exception("failed to load products, please try again")
-    
+
 
 if __name__ == "__main__":
     app.run(debug=False, host='0.0.0.0')
