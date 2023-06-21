@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from server.core.Core import Core
 from server.core.engine import *
 from flask_cors import CORS, cross_origin
@@ -6,6 +6,12 @@ import json
 
 app = Flask(__name__)
 cors = CORS(app)
+
+
+@app.route("/", methods={'GET'})
+def render_home():
+    url = request.host_url
+    return render_template("index.html", url=url)
 
 
 @app.route("/search", methods=['GET'])
