@@ -1,7 +1,11 @@
-@import './base.css';
+@import "./base.css";
+/* src/assets/css/main.css */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 #app {
-margin: 0;
+  margin: 0;
 }
 
 a,
@@ -18,9 +22,7 @@ a,
 }
 
 @media (min-width: 1024px) {
-
-
   #app {
-margin: 0;
+    margin: 0;
   }
 }

@@ -1,10 +1,22 @@
-import { createApp } from "vue";
+import {createApp} from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import './assets/main.css';
 
-import { faUserSecret,faLink, faChevronRight, faXmark, faHouseLaptop, faBookmark, faMagnifyingGlass, faDeleteLeft, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
+import {
+    faUserSecret,
+    faLink,
+    faChevronRight,
+    faXmark,
+    faHouseLaptop,
+    faBookmark,
+    faMagnifyingGlass,
+    faDeleteLeft,
+    faArrowLeft
+} from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 library.add(faUserSecret, faLink, faChevronRight, faXmark, faHouseLaptop, faBookmark, faMagnifyingGlass, faDeleteLeft, faArrowLeft)
