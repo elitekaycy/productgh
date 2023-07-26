@@ -57,7 +57,7 @@ export default {
                 return response.json()
             })
             .then(data => {
-                
+
                 this.productList = data
                 this.productListFilter = data
                 this.error = false
@@ -76,19 +76,19 @@ export default {
        clear(){ return this.product = '' },
        returnHome(){
         const router = useRoute()
-        router.  
+        router.
         return
        },
        getFilteredProducts() {
             if (String(this.productSearch).length  <  1) {
                 this.productListFilter = this.productList
-                return 
+                return
             }
             this.productListFilter = this.productList.filter(product => String(product?.title + product?.tag + product?.price).toLowerCase().includes(String(this.productSearch).toLowerCase()))
             return
             // this.productListFilter = productArray
             // return
-        
+
          },
         checkBookmark() {
             const bookmarks =  useGetter('product_bookmark')
@@ -101,15 +101,13 @@ export default {
         }
 
     }
-    
-}
 
+}
 </script>
 
 <template>
-    <main>
-        <div class="search_bar_box_container">
-            <!-- <font-awesome-icon class="item-active" icon="fa-sharp fa-regular fa-arrow-left" @click="returnHome" size="2x" inverse/> -->
+  <main class="flex flex-col w-screen min-h-screen font-montserrat">
+    <!-- <div class="search_bar_box_container">
         <form class="search_bar_box" @submit.prevent="handleSearch(product)">
             <div class="header">
                 <font-awesome-icon icon="fa-house-laptop" />
@@ -124,175 +122,210 @@ export default {
                 </span>
                 <span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                    <!-- <img :src="searchimg" alt="search logo" class="logo"/> -->
                 </span>
                 <span>
                     <font-awesome-icon :class="{ 'bookmark-icon': isbookmark }" icon="fa-bookmark" />
                 </span>
             </span>
         </form>
-        </div>
+        </div> -->
+    <div class="flex flex-col w-full relative p-10 items-center justify-center">
+      <div
+        class="sea rounded-full pr-5 items-center flex flex-row max-w-2xl w-full bg-yellow-100 z-50"
+      >
+        <input
+          class="w-full bg-transparent h-full p-8 placeholder-gray-500 text-xl font-light focus:outline-none"
+          type="text"
+          v-model="product"
+          placeholder="Enter search for new product"
+        />
+        <span v-if="product != ''" class="clear">
+          <font-awesome-icon
+            icon="fa-solid fa-xmark"
+            size="2x"
+            @click="clear"
+          />
+        </span>
+      </div>
+    </div>
 
-        <div class="main_box">
-        <div v-if="!loading" class="info">
-           showing search results for "<span>{{ product }}</span>"
-           <span class="searchLength">{{ Number(productList.length ) }} results showing</span>
-        </div>
+    <div class="">
+      <div v-if="loading" class="loading">
+        <img :src="loader" alt="loadingAnimation" />
+      </div>
 
-        <div v-if="loading" class="loading">
-            <img :src="loader" alt = "loadingAnimation"/>
+      <!-- <div class="filter-search-box">
+        <div class="filter_input_box">
+          <input
+            class="filter_input"
+            v-model="productSearch"
+            v-on:input="getFilteredProducts"
+            type="text"
+            name="filter_search"
+            placeholder="filter search results"
+          />
+          <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </div>
-        
-        <div class="filter-search-box">
-            <div class="filter_input_box">
-               <input class="filter_input" v-model="productSearch" v-on:input="getFilteredProducts" type="text" name="filter_search" placeholder="filter search results"/>
-               <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-            </div>
-        </div>
+      </div> -->
 
-        <div v-if="loading" class="products_list_main">
-            <div class="profileCard" v-for="(item, index) in [1,2,3,4,5,6,7,8]" :key="index">
-                <ProfileCardSkeleton />
-            </div>
+      <div v-if="loading" class="products_list_main">
+        <div
+          class="profileCard"
+          v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
+          :key="index"
+        >
+          <ProfileCardSkeleton />
         </div>
-        <div v-if="!loading && productList.length > 0" class="products_list_main">
-            <div v-for="(item, index) in productListFilter" :key="index" class="product_list">
-                <ProfileCard 
-                :img="String(item?.img)" 
-                :title="String(item?.title)"
-                :price="String(item?.price)"
-                :link="String(item?.link)"
-                :location="String(item?.location)"
-                :tag="String(item?.tag)"
-                :id="String(index)"
-                /> 
-            </div>
+      </div>
+      <div
+        v-if="!loading && productList.length > 0"
+        class="flex flex-row items-center flex-wrap justify-center"
+      >
+        <div
+          v-for="(item, index) in productListFilter"
+          :key="index"
+          class="p-2 w-full md:max-w-md"
+        >
+          <ProfileCard
+            :img="String(item?.img)"
+            :title="String(item?.title)"
+            :price="String(item?.price)"
+            :link="String(item?.link)"
+            :location="String(item?.location)"
+            :tag="String(item?.tag)"
+            :id="String(index)"
+          />
         </div>
-        </div>
-        
-    </main>
-
+      </div>
+    </div>
+  </main>
 </template>
 
 <style scoped>
-.searchLength {
-    font-size: 10px;
-    font-weight: lighter;
-    background-color: #362FD9;
-    color: white;
-    padding: 8px;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
-    border-radius: 15px;
+/* Apply Montserrat font to specific elements */
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.searchLength {
+  font-size: 10px;
+  font-weight: lighter;
+  background-color: #362fd9;
+  color: white;
+  padding: 8px;
+
+  border-radius: 15px;
 }
 .bookmark-icon {
-    color: #362FD9;
+  color: #362fd9;
 }
 .filter_input {
-    border: 0;
-    width: 100%;
+  border: 0;
+  width: 100%;
 }
 
-.filter_input:hover, .filter_input:focus {
-    outline: none;
+.filter_input:hover,
+.filter_input:focus {
+  outline: none;
 }
 .filter_input_box {
-    background-color: white;
-    padding: 2px;
-    width: 100%;
-    max-width: 200px;
-    height: 100%;
-    max-height: 50px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: 1px solid gray;
+  background-color: white;
+  padding: 2px;
+  width: 100%;
+  max-width: 200px;
+  height: 100%;
+  max-height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid gray;
 }
 .filter_input_box:hover {
-    border: 1px solid  black;
+  border: 1px solid black;
 }
 .filter-search-box {
-    display: flex;
-    height: auto;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 60px;
+  display: flex;
+  height: auto;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 60px;
 }
 .loading {
-   text-align: center;
-
+  text-align: center;
 }
 .item-active {
-    transform: scale(1.09, 1.09);
-    transition: 100ms ease-in-out 100ms;
-    cursor: pointer;
+  transform: scale(1.09, 1.09);
+  transition: 100ms ease-in-out 100ms;
+  cursor: pointer;
 }
 
 .options {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    padding: 2px;
-    width: 100%;
-    max-width: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2px;
+  width: 100%;
+  max-width: 70px;
 }
 
 .clear {
-    cursor: pointer;
-    margin-right: 4px;
+  cursor: pointer;
+  margin-right: 4px;
 }
 .info {
-    padding: 10px;
-    font-weight: 400;
-    font-size: x-large;
+  padding: 10px;
+  font-weight: 400;
+  font-size: x-large;
 }
 
 .info > span {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 .header {
-    display: flex;
-    padding: 3px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-right: 2px;
+  display: flex;
+  padding: 3px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2px;
 }
 
 .header-text {
-    font-size: large;
-    font-weight: bold;
-    margin-left: 5px;
-    margin-right: 5px;
+  font-size: large;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .profileCard {
-    width: 100%;
-    max-width: 300px;
+  width: 100%;
+  max-width: 300px;
 }
 
-
 .products_list_main {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content:space-around;
-    padding: 10px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
 }
 
 .product_list {
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    border-radius: 15px;
-    max-width: 300px;
-    width: 100%;
-    margin: 0px;
-    margin-top: 30px;
-    z-index: 100;
-    background-color: white;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  max-width: 300px;
+  width: 100%;
+  margin: 0px;
+  margin-top: 30px;
+  z-index: 100;
+  background-color: white;
 }
 
 /* .product_list:hover {
@@ -302,9 +335,9 @@ export default {
 } */
 
 main {
-    overflow: hidden;
-    background-color: #F9F9F9;
-    min-height: 100vh;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  min-height: 100vh;
 }
 .search_bar_box {
   max-width: 800px;
@@ -319,17 +352,17 @@ main {
 }
 
 .search_bar_box_container {
-    padding: 15px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #FFC93C;
-
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffc93c;
 }
 
-.search_bar_box:hover, .search_bar_box:focus {
-  border: 3px solid #362FD9;
+.search_bar_box:hover,
+.search_bar_box:focus {
+  border: 3px solid #362fd9;
 }
 .search_bar {
   padding: 10px;
@@ -340,12 +373,12 @@ main {
 }
 
 .search_bar:focus {
-    outline: none;
+  outline: none;
 }
 
 .logo {
-   width: 25px;
-   height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .logo:hover {
@@ -353,7 +386,6 @@ main {
 }
 
 .main_box {
-    padding: 15px;
+  padding: 15px;
 }
-
 </style>

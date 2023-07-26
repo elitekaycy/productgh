@@ -15,7 +15,8 @@ export default {
     },
     data() {
         return {
-            active: false
+            active: false,
+            randomColorClass: "bg-gradient-to-br from-green-100 via-blue-200 to-purple-300",
         }
     },
     methods: {
@@ -29,159 +30,192 @@ export default {
             }
 
 
-    
+
 
 
             // this.active ? useSetter(data, 'product_bookmark', 8) : deleteSetter(data, 'product_bookmark')
             // create use delete  and add to ternary
             this.active = !this.active
             return
-        }
-    }
-  
-}
+        },
 
+        generateRandomColor() {
+      const colors = [
+        "bg-red-500",
+        "bg-green-500",
+        "bg-blue-500",
+        "bg-yellow-500",
+        "bg-purple-500",
+        // Add more Tailwind CSS classes representing colors here
+      ];
+
+      const randomIndex = Math.floor(Math.random() * colors.length);
+      this.randomColorClass = colors[randomIndex];
+    },
+
+    mounted() {
+    this.generateRandomColor();
+  },
+
+
+    }
+
+}
 </script>
 
 <template>
-    <div class="product_main">
-         <div class="item_image_box">
-                    <img :src="img" class="item_image" alt="item image"/>
-                </div>
-                <div class="product_content">
-                    <div class="product_meta">
-                        <div class="product_title">
-                            {{ title }}
-                        </div>
+  <div
+    :class="`p-8 rounded-md h-96 relative w-full overflow-hidden ${randomColorClass} hover:scale-105 transition duration-200 cursor-pointer ease-in scale-100`"
+  >
+    <div class="flex flex-row items-center justify-between">
+      <div class="w-72 font-semibold text-lg hover:text-blue-300">
+        {{ title }}
+      </div>
+      <div class="font-semibold text-yellow-700 text-lg">$ {{ price }}</div>
+    </div>
+    <img
+      :src="img"
+      class="object w-full bottom-0 top-10 rounded-t-2xl h-full hover:scale-110 transition duration-300 ease-in scale-100"
+      alt="item image"
+    />
+  </div>
+  <!-- <div class="max-w-sm h-72 w-full">
+    <div class="item_image_box">
+      <img :src="img" class="item_image" alt="item image" />
+    </div>
+    <div class="product_content">
+      <div class="product_meta">
+        <div class="product_title">
+          {{ title }}
+        </div>
 
-                        <div class="product_price">
-                            ${{ price }}
-                        </div>
-                    </div>
-                    <div class="product_link">
-                       <a class="product_tag" :href="tag">{{ tag }}</a>
-                    </div>
-                    <!-- <div class="product_location">
-                        {{ location }}
-                    </div> -->
-                    <div class="product_fav" @click.prevent="checkBookmark({img, title, price, link, location, tag, id})">
-                        <font-awesome-icon :class="{ 'bookmark-icon': active }" icon="fa-bookmark" />
-                    </div>
-                </div>
-                <div class="footer">
-                    <a class="footer-text" :href="link">learn more</a>
-                    <font-awesome-icon icon="fa-solid fa-chevron-right" />
-                </div>
-            </div>
+        <div class="product_price">${{ price }}</div>
+      </div>
+      <div class="product_link">
+        <a class="product_tag" :href="tag">{{ tag }}</a>
+      </div>
+      <div
+        class="product_fav"
+        @click.prevent="
+          checkBookmark({ img, title, price, link, location, tag, id })
+        "
+      >
+        <font-awesome-icon
+          :class="{ 'bookmark-icon': active }"
+          icon="fa-bookmark"
+        />
+      </div>
+    </div>
+    <div class="footer">
+      <a class="footer-text" :href="link">learn more</a>
+      <font-awesome-icon icon="fa-solid fa-chevron-right" />
+    </div>
+  </div> -->
 </template>
 
 <style scoped>
-
 .bookmark-icon {
-    color: #2192FF;
+  color: #2192ff;
 }
 
-.product_fav:hover{ 
-    transform: scale(1.09, 1.09);
+.product_fav:hover {
+  transform: scale(1.09, 1.09);
 }
 .product_fav {
-    transition: 100ms ease-in-out 100ms;
-    position: absolute;
-    cursor: pointer;
-    z-index: 100;
-    margin-left: 70%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 10px;
-    background-color: white;
-    border-radius: 100%;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-
+  transition: 100ms ease-in-out 100ms;
+  position: absolute;
+  cursor: pointer;
+  z-index: 100;
+  margin-left: 70%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 100%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .product_tag {
-    font-weight: bold;
-    line-height: -10px;
-    word-spacing: -1px;
-    letter-spacing: -0.5px;
-    font-size: small;
+  font-weight: bold;
+  line-height: -10px;
+  word-spacing: -1px;
+  letter-spacing: -0.5px;
+  font-size: small;
 }
 .product_content {
-    padding: 15px;
-    margin-top: 5px;
-    background-color: white;
+  padding: 15px;
+  margin-top: 5px;
+  background-color: white;
 }
 .product_meta {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-text {
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
 }
 .footer-text:hover {
-    text-decoration: underline;
-    background-color: #2192FF;
+  text-decoration: underline;
+  background-color: #2192ff;
 }
 .footer {
-    padding: 20px;
-    background-color: #2192FF;
-    color: white;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  padding: 20px;
+  background-color: #2192ff;
+  color: white;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .product_link {
-    display: inline;
+  display: inline;
 }
 .product_price {
-    font-weight: bolder;
-    font-size: large;
-    word-spacing: -1px;
+  font-weight: bolder;
+  font-size: large;
+  word-spacing: -1px;
 }
 
 .product_location {
-    font-weight: 700;
-    font-size: small;
+  font-weight: 700;
+  font-size: small;
 }
 
 .product_title {
-    font-size: small;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    font-family: Arial, Helvetica, sans-serif;
-
+  font-size: small;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .item_image_box {
-    border-radius: 15px;
-    background-color: #F5F5F5;
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-    display: flex;
-    place-content: center;
+  border-radius: 15px;
+  background-color: #f5f5f5;
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  display: flex;
+  place-content: center;
 }
 .item_image {
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .product_main {
-    position: relative;
+  position: relative;
 }
-
 </style>
