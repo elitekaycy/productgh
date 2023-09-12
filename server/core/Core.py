@@ -32,6 +32,9 @@ class Core():
             print("could not get product try again")
             return []
 
+    def getProducts(self):
+        return self.products
+
     def process(self):
         new_product = sorted(self.products, key=lambda k: k['title'])
         return new_product

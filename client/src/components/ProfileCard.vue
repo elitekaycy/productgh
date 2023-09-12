@@ -29,32 +29,34 @@ export default {
                 deleteSetter(data, 'product_bookmark')
             }
 
-
-
-
-
-            // this.active ? useSetter(data, 'product_bookmark', 8) : deleteSetter(data, 'product_bookmark')
-            // create use delete  and add to ternary
             this.active = !this.active
             return
         },
 
-        generateRandomColor() {
-      const colors = [
-        "bg-red-500",
-        "bg-green-500",
-        "bg-blue-500",
-        "bg-yellow-500",
-        "bg-purple-500",
-        // Add more Tailwind CSS classes representing colors here
-      ];
+        async redirectToLinkUrl(){
+          console.log("requst body ", JSON.stringify(this.title))
+          fetch(`http://127.0.0.1:5000/update`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                body: JSON.stringify({
+                  title: this.title
+                }),
+             }).then(response => {
+                  return response.json()
+                })
+                .then(data => {
+                  console.log("data is ", data)
+                  window.location.href = this.link
+                })
+                .catch(err => {
+                  console.warn("error on line 50 ", err)
+                })
 
-      const randomIndex = Math.floor(Math.random() * colors.length);
-      this.randomColorClass = colors[randomIndex];
-    },
+        },
 
     mounted() {
-    this.generateRandomColor();
   },
 
 
@@ -65,6 +67,7 @@ export default {
 
 <template>
   <div
+    @click="redirectToLinkUrl"
     :class="`p-8 rounded-md h-96 relative w-full overflow-hidden ${randomColorClass} hover:scale-105 transition duration-200 cursor-pointer ease-in scale-100`"
   >
     <div class="flex flex-row items-center justify-between">
@@ -79,38 +82,6 @@ export default {
       alt="item image"
     />
   </div>
-  <!-- <div class="max-w-sm h-72 w-full">
-    <div class="item_image_box">
-      <img :src="img" class="item_image" alt="item image" />
-    </div>
-    <div class="product_content">
-      <div class="product_meta">
-        <div class="product_title">
-          {{ title }}
-        </div>
-
-        <div class="product_price">${{ price }}</div>
-      </div>
-      <div class="product_link">
-        <a class="product_tag" :href="tag">{{ tag }}</a>
-      </div>
-      <div
-        class="product_fav"
-        @click.prevent="
-          checkBookmark({ img, title, price, link, location, tag, id })
-        "
-      >
-        <font-awesome-icon
-          :class="{ 'bookmark-icon': active }"
-          icon="fa-bookmark"
-        />
-      </div>
-    </div>
-    <div class="footer">
-      <a class="footer-text" :href="link">learn more</a>
-      <font-awesome-icon icon="fa-solid fa-chevron-right" />
-    </div>
-  </div> -->
 </template>
 
 <style scoped>

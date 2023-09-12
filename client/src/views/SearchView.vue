@@ -150,7 +150,10 @@ export default {
     </div>
 
     <div class="">
-      <div v-if="loading" class="loading">
+      <div
+        v-if="loading"
+        class="text-center w-100 flex flex-col items-center p-4 loading"
+      >
         <img :src="loader" alt="loadingAnimation" />
       </div>
 
@@ -168,10 +171,13 @@ export default {
         </div>
       </div> -->
 
-      <div v-if="loading" class="products_list_main">
+      <div
+        v-if="loading"
+        class="flex flex-row items-center flex-wrap justify-center"
+      >
         <div
-          class="profileCard"
-          v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8]"
+          class="p-2 w-full md:max-w-md"
+          v-for="(item, index) in [1, 2, 3, 4, 5, 6]"
           :key="index"
         >
           <ProfileCardSkeleton />

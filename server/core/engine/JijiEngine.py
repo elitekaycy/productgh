@@ -47,4 +47,4 @@ class JijiEngine(Scraper.Scraper):
 
 
 jiji = JijiEngine('https://jiji.com.gh/', 'tripod').process()
-print("jiji ", jiji)
+# print("jiji ", jiji)
