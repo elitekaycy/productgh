@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from server.core.engine import Scraper
+# import Scraper
 
 
 class JumiaEngine(Scraper.Scraper):
@@ -41,7 +42,56 @@ class JumiaEngine(Scraper.Scraper):
             return []
 
         return res
+    
+    def getByLink(self, link):
+        print("get by link....")
+        try:
+            page = requests.get(link, headers=self.headers)
+            soup = BeautifulSoup(page.content, 'html.parser')
+
+            title = soup.find('h1', '-fs20 -pts -pbxs').getText()
+            get_img = soup.find('img', '-fw -fh')
+            price = soup.find('span', "-b -ltr -tal -fs24 -prxs").getText()
+            get_views = soup.find('a', '-plxs _more').getText()
+            get_ratings = soup.find('div',"-fs29 -yl5 -pvxs").find('span').getText()
+            get_description = soup.find('div', "markup -mhm -pvl -oxa -sc").getText()
 
 
-# jumia = JumiaEngine("https://www.jumia.com.gh/", "iphone 13", querytype="catalog/?q=").process()
+            prop_type = soup.find('article', class_='-pvs')
+            sample_prop = {}
+
+            for items in prop_type:
+                get_value = ''
+            
+                for li in items.find_all('li'):
+                    get_value += li.getText() 
+                    get_value + '/n'
+
+                get_brand = items.find('h2').getText()
+                sample_prop[str(get_brand)] = str(get_value)
+
+
+            result = {
+                "title": str(title),
+                "img": get_img['data-src'],
+                "price": str(price).strip(),
+                "seller": "jumia",
+                "views": str(get_views).split()[0][1:],
+                "location": "jumia ghana",
+                "types": sample_prop,
+                "get_ratings": str(get_ratings).strip(),
+                "description": str(get_description).strip(),
+                "bookmarked": str(get_views).split()[0][1:],
+                "tag": "jumia"
+                
+            }
+
+            print("results are ", result)
+            return result
+        except Exception as e:
+            return f"Error getting link By ID , {e}"
+
+# complete tonaton first ...
+# jumia = JumiaEngine("https://www.jumia.com.gh/", "iphone 13", querytype="catalog/?q=")
+# jumia.getByLink("https://www.jumia.com.gh/samsung-galaxy-a14-6.6-128gb-hdd-4gb-ram-50mp13mp-camera-light-green-12-months-warranty-138952778.html")
 # print("jumia ", jumia)

@@ -74,7 +74,7 @@ export default {
       <div class="w-72 font-semibold text-lg hover:text-blue-300">
         {{ title }}
       </div>
-      <div class="font-semibold text-yellow-700 text-lg">$ {{ price }}</div>
+      <div class="font-semibold text-yellow-700 text-lg">GH₵ {{ price }}</div>
     </div>
     <img
       :src="img"

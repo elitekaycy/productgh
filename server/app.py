@@ -63,7 +63,7 @@ def getProducts():
         cursor.close()
         connection.close()
         pre_process_name = sanitize_text(name)
-        init = Core(str(pre_process_name)).getProducts()
+        init = Core(str(pre_process_name)).initialize()
         rank = Algo(init, title_click_dict).rank_data()
         # print("rank data ", rank)
 
@@ -103,6 +103,28 @@ def update_metadata():
         cursor.close()
         connection.close()
         return {"status": True}
+    except Exception as e:
+        return f"Error: {e}"
+
+
+
+# get a single item
+@app.route("/product/<search>", methods = ['GET'])
+@cross_origin()
+def getProductDetail(search):
+    print("search is ", search)
+    try:
+        data = request.get_json()
+        arr_item = list()
+        for item in data:
+            arr_item.append(item)
+
+        # gotten item data { link: "", tag: ""}
+        print("arr items ", arr_item)
+        get_product_from_core =  Core(str(search)).fetchByLink(arr_item)
+        return jsonify(get_product_from_core)
+
+        pass
     except Exception as e:
         return f"Error: {e}"
 

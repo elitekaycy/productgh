@@ -136,6 +136,7 @@ export default {
         <input
           class="w-full bg-transparent h-full p-8 placeholder-gray-500 text-xl font-light focus:outline-none"
           type="text"
+          @click="handleSearch(product)"
           v-model="product"
           placeholder="Enter search for new product"
         />
@@ -157,7 +158,7 @@ export default {
         <img :src="loader" alt="loadingAnimation" />
       </div>
 
-      <!-- <div class="filter-search-box">
+      <div class="filter-search-box">
         <div class="filter_input_box">
           <input
             class="filter_input"
@@ -169,7 +170,7 @@ export default {
           />
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </div>
-      </div> -->
+      </div>
 
       <div
         v-if="loading"
