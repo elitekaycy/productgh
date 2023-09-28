@@ -35,7 +35,8 @@ class JijiEngine(Scraper.Scraper):
                     "title": str(title.text).strip(),
                     "price": str(price.text).strip().split()[1],
                     "location ": str(location_set).strip(),
-                    "tag": str(self.url)
+                    "tag": str(self.url),
+                    "tagName": "jiji"
                 }
                 res.append(obj)
 

@@ -35,7 +35,8 @@ class TonatonEngine(Scraper.Scraper):
                     "title": str(title.text).strip(),
                     "price": str(price.text).strip().split()[1],
                     "location ": str(location_set.text).strip(),
-                    "tag": str(self.url)
+                    "tag": str(self.url),
+                    "tagName": "tonaton"
                 }
                 # print("object is ", obj)
                 res.append(obj)

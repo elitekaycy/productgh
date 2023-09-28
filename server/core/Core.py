@@ -61,14 +61,15 @@ class Core():
             get_link = tag_obj.get('link')
 
             try:
-                get_item = tag_dict[str(get_tag)].getByLink(get_link)
+                get_item = tag_dict[str(get_tag)].getByLink(str(get_link))
                 items.append(get_item)
+                
 
             
             except Exception as e:
                 print(f"Exception error getting the items from products {e}")
         
-        print("items are ", items)
+        # print("items are ", items)
         return items
         # tag, link
     

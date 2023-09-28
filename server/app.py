@@ -109,22 +109,23 @@ def update_metadata():
 
 
 # get a single item
-@app.route("/product/<search>", methods = ['GET'])
+@app.route("/product/<search>", methods = ['POST'])
 @cross_origin()
 def getProductDetail(search):
     print("search is ", search)
+    print("data requeesrt is ", request.get_data())
     try:
         data = request.get_json()
-        arr_item = list()
+        arr_item = []
         for item in data:
             arr_item.append(item)
 
         # gotten item data { link: "", tag: ""}
-        print("arr items ", arr_item)
+        # print("arr items ", arr_item)
         get_product_from_core =  Core(str(search)).fetchByLink(arr_item)
+        # print("get products ", get_product_from_core)
         return jsonify(get_product_from_core)
 
-        pass
     except Exception as e:
         return f"Error: {e}"
 

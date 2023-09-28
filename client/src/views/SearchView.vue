@@ -6,14 +6,18 @@ import router from '../router/index'
 import ProfileCardSkeleton from '@/components/ProfileCardSkeleton.vue'
 import ProfileCard from '../components/ProfileCard.vue'
 import { useGetter } from '../composables/getterSetter'
+import CompareModal from '../components/CompareModal.vue'
 
 export default {
     components: {
         ProfileCardSkeleton: ProfileCardSkeleton,
-        ProfileCard: ProfileCard
+        ProfileCard: ProfileCard,
+        CompareModal
     },
     data() {
         return {
+            compareProducts: [],
+            trackProducts: {},
             product: '',
             loading: true,
             error: false,
@@ -23,7 +27,8 @@ export default {
             productList: [],
             productListFilter: [],
             productSearch: "",
-            isbookmark: false
+            isbookmark: false,
+            isModalVisible: false 
         }
     },
     mounted() {
@@ -34,6 +39,23 @@ export default {
         this.checkBookmark()
     },
     methods: {
+
+          handleAddProductCompare(itemTag, itemLink) {
+             const isProductInCompare = this.compareProducts.some(product => product.tag === itemTag && product.link === itemLink);
+
+              if (isProductInCompare) {
+              // Remove the product from compareProducts
+              this.compareProducts = this.compareProducts.filter(product => !(product.tag === itemTag && product.link === itemLink));
+              this.trackProducts[itemLink] = false;
+              } else {
+              // Add the product to compareProducts
+              this.compareProducts.push({ tag: itemTag, link: itemLink });
+              this.trackProducts[itemLink] = true;
+              }
+
+              console.log("track and compare", this.trackProducts, this.compareProducts)
+          },
+
          handleSearch(item) {
             const route = useRoute()
             if (item.length < 1) {
@@ -98,7 +120,16 @@ export default {
             else {
                 this.isbookmark = false
             }
-        }
+        },
+
+        //modal methods
+
+        showModal() {
+      this.isModalVisible = true; // Show the modal
+        },
+      closeModal() {
+        this.isModalVisible = false; // Close the modal
+      }
 
     }
 
@@ -106,7 +137,14 @@ export default {
 </script>
 
 <template>
-  <main class="flex flex-col w-screen min-h-screen font-montserrat">
+  <main class="flex relative flex-col w-screen min-h-screen font-montserrat">
+    <div v-if="compareProducts && compareProducts.length >= 1" class="p-2 fixed z-50 w-full top-16 left-5">
+      <button 
+      @click="showModal"
+      class="px-4 shadow-2xl p-4 rounded-lg text-white bg-blue-500 hover:bg-blue-400 transform hover:scale-105 scale-100 text-sm font-semibold text-center">
+        compare products <span class="rounded-full bg-blue-400 py-1 px-3">{{ compareProducts.length }}</span>
+      </button>
+    </div>
     <!-- <div class="search_bar_box_container">
         <form class="search_bar_box" @submit.prevent="handleSearch(product)">
             <div class="header">
@@ -191,20 +229,39 @@ export default {
         <div
           v-for="(item, index) in productListFilter"
           :key="index"
-          class="p-2 w-full md:max-w-md"
+          class="p-2 w-full md:max-w-md h-auto"
         >
-          <ProfileCard
-            :img="String(item?.img)"
-            :title="String(item?.title)"
-            :price="String(item?.price)"
-            :link="String(item?.link)"
-            :location="String(item?.location)"
-            :tag="String(item?.tag)"
-            :id="String(index)"
-          />
+          <div
+            @click="handleAddProductCompare(item?.tagName, item?.link)"
+            :class="`${
+              trackProducts[item?.link] === true
+                ? 'border-t-8 border-t-blue-700 rounded-xl'
+                : ''
+            }`"
+          >
+            <ProfileCard
+              :img="String(item?.img)"
+              :title="String(item?.title)"
+              :price="String(item?.price)"
+              :link="String(item?.link)"
+              :location="String(item?.location)"
+              :tag="String(item?.tag)"
+              :id="String(index)"
+              :tagName="String(item?.tagName)"
+            />
+          </div>
         </div>
       </div>
     </div>
+
+
+    <CompareModal
+    :products="compareProducts"
+    v-if="isModalVisible" @close="closeModal">
+      <!-- Modal content goes here -->
+      <h1 class="text-xl font-semibold">My Modal</h1>
+      <p>This is some modal content.</p>
+    </CompareModal>
   </main>
 </template>
 

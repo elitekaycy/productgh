@@ -33,7 +33,8 @@ class JumiaEngine(Scraper.Scraper):
                     "title": str(title.text).strip(),
                     "price": str(price.text).strip().split()[1],
                     "location ": "",
-                    "tag": str(self.url)
+                    "tag": str(self.url),
+                    "tagName":"jumia"
                 }
                 # print("object is ", obj)
                 res.append(obj)
@@ -48,12 +49,12 @@ class JumiaEngine(Scraper.Scraper):
         try:
             page = requests.get(link, headers=self.headers)
             soup = BeautifulSoup(page.content, 'html.parser')
-
             title = soup.find('h1', '-fs20 -pts -pbxs').getText()
             get_img = soup.find('img', '-fw -fh')
             price = soup.find('span', "-b -ltr -tal -fs24 -prxs").getText()
             get_views = soup.find('a', '-plxs _more').getText()
-            get_ratings = soup.find('div',"-fs29 -yl5 -pvxs").find('span').getText()
+            get_ratings = soup.find('div',"-fs29 -yl5 -pvxs")
+            default_ratings = get_ratings.find('span').getText() if get_ratings else "0"
             get_description = soup.find('div', "markup -mhm -pvl -oxa -sc").getText()
 
 
@@ -71,6 +72,7 @@ class JumiaEngine(Scraper.Scraper):
                 sample_prop[str(get_brand)] = str(get_value)
 
 
+
             result = {
                 "title": str(title),
                 "img": get_img['data-src'],
@@ -79,14 +81,14 @@ class JumiaEngine(Scraper.Scraper):
                 "views": str(get_views).split()[0][1:],
                 "location": "jumia ghana",
                 "types": sample_prop,
-                "get_ratings": str(get_ratings).strip(),
+                "get_ratings": str(default_ratings).strip(),
                 "description": str(get_description).strip(),
                 "bookmarked": str(get_views).split()[0][1:],
-                "tag": "jumia"
+                "tag": "jumia",
                 
             }
 
-            print("results are ", result)
+            # print("results are ", result)
             return result
         except Exception as e:
             return f"Error getting link By ID , {e}"
