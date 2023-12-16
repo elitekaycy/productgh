@@ -63,12 +63,12 @@ export default {
 </script>
 
 <template>
-  <main class="w-screen min-h-screen bg-gray-100 font-montserrat">
+  <main class="w-screen text-black min-h-screen bg-gray-100 font-montserrat">
     <div
       class="navbar w-full p-8 flex flex-row items-center justify-between bg-yellow-100"
     >
       <div class="tracking-tighter font-bold md:text-2xl text-xl">
-        Productgh
+        Product Ghana
       </div>
     </div>
     <div

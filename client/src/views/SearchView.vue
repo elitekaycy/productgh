@@ -137,7 +137,7 @@ export default {
 </script>
 
 <template>
-  <main class="flex relative flex-col w-screen min-h-screen font-montserrat">
+  <main class="flex relative text-black flex-col w-screen min-h-screen font-montserrat">
     <div v-if="compareProducts && compareProducts.length >= 1" class="p-2 fixed z-50 w-full top-16 left-5">
       <button 
       @click="showModal"
